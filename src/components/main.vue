@@ -32,7 +32,7 @@
                        <Icon type="ios-menu" />
                         话题
                     </template>
-                    <MenuItem name='1-1'><router-link :to="{path:'/main/topic'}" ><div class="menuitems" >查看全部话题</div></router-link></MenuItem>
+                    <MenuItem name='1-1'><router-link :to="{path:'/main/topic',query:{nickname:nickname}}" ><div class="menuitems" >查看全部话题</div></router-link></MenuItem>
                     <MenuItem name="1-2"><router-link :to="{path:'/main/myTopic',query:{nickname:nickname}}" @click="getNickname"><div class="menuitems" > 查看我的话题 </div></router-link></MenuItem>                   
                 </Submenu>
                 <Submenu name="2">

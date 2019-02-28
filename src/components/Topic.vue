@@ -1,7 +1,7 @@
 <template>
 <div>
     <!-- <Button type="info" ghost>添加话题</Button> -->
-    <Button type="info" ghost @click="judgeLanding()" >添加话题</Button>
+    <Button type="info" ghost @click="judgeLanding(nickname,show)" >添加话题</Button>
     <Modal
         v-model="modal1"
         title="Common Modal dialog box title"
@@ -23,7 +23,9 @@
 </template>
 <script>
     import expandRow from './table-expand.vue';
+    import mixinJs from '../mixins/mixinsJs'
     export default {
+        mixins:[mixinJs],
         components: { expandRow },
         data () {
             return {
@@ -90,19 +92,25 @@
                 })
             },
             ok () {
-                if (!this.$route.query.nickname) {
-                    this.$Message.info('请登录后发表评论！');
-                }else if (this.$route.query.nickname) {
-                    this.topicData.posted_name=this.$route.query.nickname
-                    var myDate = new Date();
-                    var time = myDate.toLocaleDateString().replace(/\//g,"-")+" "+myDate.getHours()+":"+myDate.getMinutes()+":"+myDate.getSeconds()
-                    this.topicData.posted_time =time
-                    this.$http.post('/api/insertTopic',this.topicData)
-                    .then((res)=>{
-                        location. reload()
-                    })   
-                }
                 
+                
+                // if (!this.$route.query.nickname) {
+                //     this.$Message.info('请登录后发表评论！');
+                // }else if (this.$route.query.nickname) {
+                //     this.topicData.posted_name=this.$route.query.nickname
+                //     this.topicData.posted_time =this.getDateTime()
+                //     this.$http.post('/api/insertTopic',this.topicData)
+                //     .then((res)=>{
+                //         location. reload()
+                //     })   
+                // }
+                console.log(this.$route.query.nickname)
+                if (this.$route.query.nickname) {
+                    this.insertTopic()
+                }
+                // if (true) {
+                //     this.judgeLanding(this.nickname,this.show)
+                // }
             },
             cancel () {
                 this.$Message.info('Clicked cancel');
@@ -111,14 +119,25 @@
                 console.log(data)
                 this.$router.push({name:'comment',params:data,query:this.$route.query.nickname})
             },
-            judgeLanding (){
-                if (!this.$route.query.nickname) {
-                    console.log(this.$route.query.nickname)
-                    this.$Message.info('请登录后再发表话题');
-                }else if(this.$route.query.nickname){
-                    modal1 = true
-                }
+            insertTopic() {
+                this.topicData.posted_name=this.$route.query.nickname
+                this.topicData.posted_time =this.getDateTime()
+                this.$http.post('/api/insertTopic',this.topicData)
+                .then((res)=>{
+                    location. reload()
+                })  
+            },
+            show () {
+                this.modal1 = true
             }
+            // judgeLanding (){
+            //     if (!this.$route.query.nickname) {
+            //         console.log(this.$route.query.nickname)
+            //         this.$Message.info('请登录后再发表话题');
+            //     }else if(this.$route.query.nickname){
+            //         this.modal1 = true
+            //     }
+            // }
 
         },
         mounted(){

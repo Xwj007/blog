@@ -21,7 +21,9 @@
 </template>
 <script>
     import expandRow from './table-expand.vue';
+    import mixinJs from '../mixins/mixinsJs'
     export default {
+        mixins:[mixinJs],
         components: { expandRow },
         data () {
             return {
@@ -140,9 +142,7 @@
                 if (this.status==1) {
                     this.$Message.info('Clicked ok');
                     this.topicData.posted_name=this.$route.query.nickname
-                    var myDate = new Date();
-                    var time = myDate.toLocaleDateString().replace(/\//g,"-")+" "+myDate.getHours()+":"+myDate.getMinutes()+":"+myDate.getSeconds()
-                    this.topicData.posted_time =time
+                    this.topicData.posted_time =this.getDateTime()
                     this.$http.post('/api/insertTopic',this.topicData)
                     .then((res)=>{
                         location. reload()
@@ -169,15 +169,15 @@
             edit () {
                 var editData = this.topicData
                 editData.topic_id = this.topic_id
-                var myDate = new Date();
-                this.topicData.posted_time = myDate.toLocaleDateString().replace(/\//g,"-")+" "+myDate.getHours()+":"+myDate.getMinutes()+":"+myDate.getSeconds()
-                console.log(editData)
+                this.topicData.posted_time = this.getDateTime()
                 this.$http.post('/api/editById',editData)
                 .then((res) => {
                     if (res.err_code == 0) {
                         this.$Message.info(res.data.message)
                     } else if (res.err_code == 1) {
+                        location. reload()
                         this.data9.slice(index,1)
+                        console.log(this.data9)
                         this.$Message.info(res.data.message)
                     }
                 })
@@ -185,19 +185,20 @@
             rowClick (data) {
                 this.$router.push({name:'comment',params:data,query:this.$route.query.nickname})
             },
-            judgeLanding (){
-                if (!this.$route.query.nickname) {
-                    this.$Message.info('请先登陆,再查看个人话题');
-                    this.$router.push('/login')     
-                }
-                if (this.$route.query.nickname) {
-                    this.getTableData()
-                }
-            }
+            // judgeLanding (){
+            //     if (!this.$route.query.nickname) {
+            //         this.$Message.info('请先登陆,再查看个人话题');
+            //         this.$router.push('/login')     
+            //     }
+            //     if (this.$route.query.nickname) {
+            //         this.getTableData()
+            //     }
+            // }
+
         },
-        mounted(){
-          this.nickname = this.$route.query.nickname
-          this.judgeLanding()
+        mounted(){ 
+          this.nickname= this.$route.query.nickname      
+          this.judgeLanding(this.nickname,this.getTableData)
         }
     }
 </script>

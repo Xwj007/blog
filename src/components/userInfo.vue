@@ -45,7 +45,9 @@
   </div>
 </template>
 <script>
+    import mixinJs from '../mixins/mixinsJs'
     export default {
+        mixins:[mixinJs],
         data () {
             return {
                 formValidate: {
@@ -82,7 +84,6 @@
             handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        // this.$Message.success('Success!');
                         this.changeInfo()
                     } else {
                         this.$Message.error('Fail!');
@@ -94,6 +95,7 @@
             },
             getInfo () {
               var nickname=this.nickname
+              console.log(this.formValidate.birthday)
               this.$http.get('/api/getInfo',{params: {
                 nickname:nickname
                 }})
@@ -125,13 +127,15 @@
             }
         },
         mounted(){
-          this.nickname=this.$route.query.nickname
-          if (!this.nickname) {
-              this.$Message.info('兄弟登陆先')
-              this.$router.push('/login')
-          }else if(this.nickname){
-                this.getInfo()
-          }
+            this.nickname=this.$route.query.nickname
+            this.judgeLanding(this.nickname,this.getInfo)
+        //   this.nickname=this.$route.query.nickname
+        //   if (!this.nickname) {
+        //       this.$Message.info('兄弟登陆先')
+        //       this.$router.push('/login')
+        //   }else if(this.nickname){
+        //         this.getInfo()
+        //   }
           
         }
     }
