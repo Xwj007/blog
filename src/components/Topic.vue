@@ -4,7 +4,7 @@
     <Button type="info" ghost @click="judgeLanding(nickname,show)" >添加话题</Button>
     <Modal
         v-model="modal1"
-        title="Common Modal dialog box title"
+        title="话题框"
         @on-ok="ok"
         @on-cancel="cancel">
         <Form :model="topicData" label-width:80px >

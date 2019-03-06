@@ -3,7 +3,7 @@
     <Button type="info" ghost @click="modal1 = true;getStatus(1)" >添加话题</Button>
     <Modal
         v-model="modal1"
-        title="话题"
+        title="编辑话题"
         @on-ok="ok"
         @on-cancel="cancel">
         <Form :model="topicData" label-width:80px >

@@ -24,7 +24,7 @@
                   </Input>
               </FormItem>
               <FormItem style="text-align:center">
-                  <Button type="primary" @click="handleSubmit('formInline')">Signin</Button>
+                  <Button type="primary" @click="handleSubmit('formInline')">Sign in</Button>
               </FormItem>
           </Form>
         </Col>

@@ -51,7 +51,9 @@
 
 </template>
 <script>
+import mixinJs from '../mixins/mixinsJs'
 export default {
+  mixins:[mixinJs],
   data () {
     return {
       topicData:{},
@@ -81,9 +83,10 @@ export default {
       })
     },
     addComment () {
-      if (!this.$route.query.nickname) {
+      if (!this.$route.query) {
+        alert(this.$route.query)
         this.$Message.info('请登录后发表评论！')
-      }else if(this.$route.query.nickname){
+      }else if(this.$route.query){       
         this.commentData.nickname = this.$route.query
         console.log(this.$route.query.nickname)
         this.getDataTime()

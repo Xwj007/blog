@@ -17,6 +17,7 @@ node app.js
 切换到\blog-mysql\src\App.vue文件
 
 运行命令：
+npm install
 
 ```powershell
 npm run dev
